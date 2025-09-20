@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller PHP - Aplicaciones Matemáticas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Menú Principal -->
+        <div class="menu" id="mainMenu">
+            <h1>🧮 Taller PHP - Aplicaciones Matemáticas</h1>
+            <p>Seleccione una de las siguientes opciones:</p>
+            
+            <div class="menu-options">
+                <a href="#" onclick="showSection('acronym')" class="menu-option">
+                    <h3>🔤 Generador de Acrónimos</h3>
+                    <p>Convierte frases largas en acrónimos. Ej: "Portable Network Graphics" → "PNG"</p>
+                </a>
+                
+                <a href="#" onclick="showSection('math')" class="menu-option">
+                    <h3>🔢 Fibonacci y Factorial</h3>
+                    <p>Calcula sucesión de Fibonacci o factorial de un número dado</p>
+                </a>
+                
+                <a href="#" onclick="showSection('statistics')" class="menu-option">
+                    <h3>📊 Estadísticas</h3>
+                    <p>Calcula promedio, mediana y moda de una serie de números</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Sección de Acrónimos -->
+        <div id="acronymSection" class="section" style="display: none;">
+            <div class="nav">
+                <a href="#" onclick="showSection('menu')">← Volver al Menú</a>
+            </div>
+            
+            <div class="form-section">
+                <h2>🔤 Generador de Acrónimos</h2>
+                <p>Convierte una frase en su acrónimo. Los guiones son separadores de palabras.</p>
+                
+                <form onsubmit="generateAcronym(event)">
+                    <div class="form-group">
+                        <label for="phrase">Ingrese una frase:</label>
+                        <input 
+                            type="text" 
+                            id="phrase" 
+                            placeholder="Ej: Portable Network Graphics"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn">Generar Acrónimo</button>
+                </form>
+                
+                <div id="acronymResult" class="result-section" style="display: none;">
+                    <h3>✅ Acrónimo generado:</h3>
+                    <div class="result-value" id="acronymValue"></div>
+                </div>
+                
+                <div class="examples">
+                    <h3>💡 Ejemplos de uso:</h3>
+                    <div class="example">
+                        <strong>As Soon As Possible</strong> → <strong>ASAP</strong>
+                    </div>
+                    <div class="example">
+                        <strong>Liquid-crystal display</strong> → <strong>LCD</strong>
+                    </div>
+                    <div class="example">
+                        <strong>Thank George It's Friday!</strong> → <strong>TGIF</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Matemáticas -->
+        <div id="mathSection" class="section" style="display: none;">
+            <div class="nav">
+                <a href="#" onclick="showSection('menu')">← Volver al Menú</a>
+            </div>
+            
+            <div class="form-section">
+                <h2>🔢 Fibonacci y Factorial</h2>
+                <p>Calcula la sucesión de Fibonacci o el factorial de un número.</p>
+                
+                <form onsubmit="calculateMath(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="mathNumber">Número:</label>
+                            <input 
+                                type="number" 
+                                id="mathNumber" 
+                                min="0"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="operation">Operación:</label>
+                            <select id="operation" required>
+                                <option value="">Seleccione...</option>
+                                <option value="fibonacci">Sucesión de Fibonacci</option>
+                                <option value="factorial">Factorial</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">Calcular</button>
+                </form>
+                
+                <div id="mathResult" class="result-section" style="display: none;">
+                    <h3>✅ Resultado:</h3>
+                    <div id="mathValue"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Estadísticas -->
+        <div id="statisticsSection" class="section" style="display: none;">
+            <div class="nav">
+                <a href="#" onclick="showSection('menu')">← Volver al Menú</a>
+            </div>
+            
+            <div class="form-section">
+                <h2>📊 Estadísticas</h2>
+                <p>Calcula promedio, mediana y moda de una serie de números.</p>
+                
+                <div class="numbers-input">
+                    <label for="newNumber">Agregar número:</label>
+                    <input 
+                        type="number" 
+                        id="newNumber" 
+                        step="any"
+                        placeholder="Ingrese un número"
+                    >
+                    <button type="button" class="add-number-btn" onclick="addNumber()">Agregar</button>
+                </div>
+                
+                <div class="numbers-list" id="numbersList">
+                    <!-- Los números se mostrarán aquí -->
+                </div>
+                
+                <button type="button" class="btn" onclick="calculateStatistics()">Calcular Estadísticas</button>
+                
+                <div id="statsResult" class="result-section" style="display: none;">
+                    <h3>✅ Resultados:</h3>
+                    <div id="statsValue"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let numbers = [];
+        let db;
+
+        // Inicializar IndexedDB
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('TallerPHP', 1);
+                
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    db = request.result;
+                    resolve(db);
+                };
+                
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains('calculations')) {
+                        db.createObjectStore('calculations', { keyPath: 'id', autoIncrement: true });
+                    }
+                };
+            });
+        }
+
+        // Mostrar sección específica
+        function showSection(sectionName) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('mainMenu').style.display = 'none';
+            
+            // Mostrar la sección seleccionada
+            if (sectionName === 'menu') {
+                document.getElementById('mainMenu').style.display = 'block';
+            } else {
+                document.getElementById(sectionName + 'Section').style.display = 'block';
+            }
+        }
+
+        // Generar acrónimo
+        function generateAcronym(event) {
+            event.preventDefault();
+            
+            const phrase = document.getElementById('phrase').value;
+            const result = createAcronym(phrase);
+            
+            document.getElementById('acronymValue').textContent = result;
+            document.getElementById('acronymResult').style.display = 'block';
+            
+            // Guardar en IndexedDB
+            saveCalculation('acronym', { phrase, result });
+        }
+
+        // Crear acrónimo
+        function createAcronym(phrase) {
+            // Limpiar texto eliminando signos de puntuación excepto guiones
+            let cleaned = phrase.replace(/[^\w\s\-]/g, '');
+            
+            // Normalizar separadores (convertir guiones en espacios)
+            cleaned = cleaned.replace(/[\s\-]+/g, ' ');
+            
+            // Dividir en palabras y generar acrónimo
+            const words = cleaned.split(' ').filter(word => word.length > 0);
+            return words.map(word => word.charAt(0).toUpperCase()).join('');
+        }
+
+        // Calcular matemáticas
+        function calculateMath(event) {
+            event.preventDefault();
+            
+            const number = parseInt(document.getElementById('mathNumber').value);
+            const operation = document.getElementById('operation').value;
+            
+            let result;
+            if (operation === 'fibonacci') {
+                result = calculateFibonacci(number).join(', ');
+                document.getElementById('mathValue').innerHTML = `<div class="result-list">${result}</div>`;
+            } else {
+                result = calculateFactorial(number);
+                document.getElementById('mathValue').innerHTML = `<div class="result-value">${result}</div>`;
+            }
+            
+            document.getElementById('mathResult').style.display = 'block';
+            
+            // Guardar en IndexedDB
+            saveCalculation('math', { number, operation, result });
+        }
+
+        // Calcular Fibonacci
+        function calculateFibonacci(n) {
+            if (n < 0) throw new Error("El número debe ser positivo");
+            if (n === 0) return [0];
+            if (n === 1) return [0, 1];
+            
+            const fibonacci = [0, 1];
+            for (let i = 2; i <= n; i++) {
+                fibonacci.push(fibonacci[i - 1] + fibonacci[i - 2]);
+            }
+            return fibonacci;
+        }
+
+        // Calcular Factorial
+        function calculateFactorial(n) {
+            if (n < 0) throw new Error("El número debe ser positivo");
+            if (n === 0 || n === 1) return 1;
+            
+            let factorial = 1;
+            for (let i = 2; i <= n; i++) {
+                factorial *= i;
+            }
+            return factorial;
+        }
+
+        // Agregar número a la lista
+        function addNumber() {
+            const input = document.getElementById('newNumber');
+            const number = parseFloat(input.value);
+            
+            if (!isNaN(number)) {
+                numbers.push(number);
+                updateNumbersList();
+                input.value = '';
+            }
+        }
+
+        // Actualizar lista de números
+        function updateNumbersList() {
+            const list = document.getElementById('numbersList');
+            list.innerHTML = '';
+            
+            numbers.forEach((number, index) => {
+                const span = document.createElement('span');
+                span.className = 'number-item';
+                span.innerHTML = number + '<button type="button" class="remove-number" onclick="removeNumber(' + index + ')">×</button>';
+                list.appendChild(span);
+            });
+        }
+
+        // Remover número de la lista
+        function removeNumber(index) {
+            numbers.splice(index, 1);
+            updateNumbersList();
+        }
+
+        // Calcular estadísticas
+        function calculateStatistics() {
+            if (numbers.length === 0) {
+                alert('Por favor, agregue al menos un número.');
+                return;
+            }
+            
+            const average = numbers.reduce((sum, num) => sum + num, 0) / numbers.length;
+            const median = calculateMedian([...numbers].sort((a, b) => a - b));
+            const mode = calculateMode(numbers);
+            
+            let result = `Promedio: ${average.toFixed(2)}\n`;
+            result += `Mediana: ${median.toFixed(2)}\n`;
+            
+            if (mode.length === 0) {
+                result += 'Moda: No hay moda (todos los números aparecen una vez)';
+            } else {
+                result += `Moda: ${mode.join(', ')}`;
+            }
+            
+            document.getElementById('statsValue').innerHTML = `<div class="result-list">${result.replace(/\n/g, '<br>')}</div>`;
+            document.getElementById('statsResult').style.display = 'block';
+            
+            // Guardar en IndexedDB
+            saveCalculation('statistics', { numbers: [...numbers], average, median, mode });
+        }
+
+        // Calcular mediana
+        function calculateMedian(sortedNumbers) {
+            const count = sortedNumbers.length;
+            if (count % 2 === 0) {
+                return (sortedNumbers[count / 2 - 1] + sortedNumbers[count / 2]) / 2;
+            } else {
+                return sortedNumbers[Math.floor(count / 2)];
+            }
+        }
+
+        // Calcular moda
+        function calculateMode(numbers) {
+            const frequency = {};
+            numbers.forEach(num => {
+                frequency[num] = (frequency[num] || 0) + 1;
+            });
+            
+            const maxFrequency = Math.max(...Object.values(frequency));
+            if (maxFrequency === 1) return [];
+            
+            return Object.keys(frequency)
+                .filter(num => frequency[num] === maxFrequency)
+                .map(num => parseFloat(num));
+        }
+
+        // Guardar cálculo en IndexedDB
+        function saveCalculation(type, data) {
+            if (!db) return;
+            
+            const transaction = db.transaction(['calculations'], 'readwrite');
+            const store = transaction.objectStore('calculations');
+            
+            const calculation = {
+                type: type,
+                data: data,
+                timestamp: new Date().toISOString()
+            };
+            
+            store.add(calculation);
+        }
+
+        // Cargar cálculos guardados
+        function loadCalculations() {
+            if (!db) return;
+            
+            const transaction = db.transaction(['calculations'], 'readonly');
+            const store = transaction.objectStore('calculations');
+            const request = store.getAll();
+            
+            request.onsuccess = () => {
+                console.log('Cálculos guardados:', request.result);
+            };
+        }
+
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await initDB();
+                loadCalculations();
+            } catch (error) {
+                console.error('Error inicializando IndexedDB:', error);
+            }
+        });
+    </script>
+</body>
+</html>
