@@ -26,18 +26,27 @@ class BinaryTreeBuilder
      */
     public function validateTraversals(array $preorder, array $inorder, array $postorder): bool
     {
+        // Filtrar arrays vacíos
+        $nonEmptyArrays = array_filter([$preorder, $inorder, $postorder], function($arr) { return !empty($arr); });
+        
+        if (count($nonEmptyArrays) < 2) {
+            return false;
+        }
+        
         // Verificar que todos tengan la misma longitud
-        $lengths = [count($preorder), count($inorder), count($postorder)];
+        $lengths = array_map('count', $nonEmptyArrays);
         if (count(array_unique($lengths)) > 1) {
             return false;
         }
         
         // Verificar que todos tengan los mismos elementos
-        $elements = [array_unique($preorder), array_unique($inorder), array_unique($postorder)];
-        $allElements = array_merge($elements[0], $elements[1], $elements[2]);
+        $allElements = [];
+        foreach ($nonEmptyArrays as $arr) {
+            $allElements = array_merge($allElements, $arr);
+        }
         $uniqueElements = array_unique($allElements);
         
-        return count($uniqueElements) === count($elements[0]);
+        return count($uniqueElements) === count($nonEmptyArrays[0]);
     }
     
     /**
@@ -186,29 +195,89 @@ class BinaryTreeBuilder
     /**
      * Obtiene la representación visual del árbol
      */
-    public function getTreeVisualization(?BinaryTreeNode $root, int $level = 0): string
+    public function getTreeVisualization(?BinaryTreeNode $root): string
     {
         if ($root === null) {
-            return "";
+            return "Árbol vacío";
         }
         
-        $result = str_repeat("  ", $level) . $root->value . "\n";
+        $lines = [];
+        $this->buildTreeLines($root, $lines, "", true);
         
-        if ($root->left !== null || $root->right !== null) {
-            if ($root->left !== null) {
-                $result .= $this->getTreeVisualization($root->left, $level + 1);
-            } else {
-                $result .= str_repeat("  ", $level + 1) . "null\n";
+        return implode("\n", $lines);
+    }
+    
+    private function buildTreeLines(?BinaryTreeNode $node, array &$lines, string $prefix, bool $isLast): void
+    {
+        if ($node === null) {
+            return;
+        }
+        
+        $lines[] = $prefix . ($isLast ? "└── " : "├── ") . $node->value;
+        
+        $children = [];
+        if ($node->left !== null) {
+            $children[] = ['node' => $node->left, 'isLeft' => true];
+        }
+        if ($node->right !== null) {
+            $children[] = ['node' => $node->right, 'isLeft' => false];
+        }
+        
+        for ($i = 0; $i < count($children); $i++) {
+            $child = $children[$i];
+            $isLastChild = ($i === count($children) - 1);
+            $newPrefix = $prefix . ($isLast ? "    " : "│   ");
+            
+            $this->buildTreeLines($child['node'], $lines, $newPrefix, $isLastChild);
+        }
+    }
+    
+    /**
+     * Obtiene una representación ASCII del árbol
+     */
+    public function getAsciiTree(?BinaryTreeNode $root): string
+    {
+        if ($root === null) {
+            return "Árbol vacío";
+        }
+        
+        $lines = [];
+        $this->buildAsciiTree($root, $lines, 0, 0);
+        
+        return implode("\n", $lines);
+    }
+    
+    private function buildAsciiTree(?BinaryTreeNode $node, array &$lines, int $row, int $col): void
+    {
+        if ($node === null) {
+            return;
+        }
+        
+        // Asegurar que tenemos suficientes líneas
+        while (count($lines) <= $row) {
+            $lines[] = str_repeat(" ", 50); // Línea vacía con espacios
+        }
+        
+        // Colocar el nodo en la posición correcta
+        $value = str_pad($node->value, 3, " ", STR_PAD_BOTH);
+        $currentLine = $lines[$row];
+        $newLine = substr($currentLine, 0, $col) . $value . substr($currentLine, $col + 3);
+        $lines[$row] = $newLine;
+        
+        // Agregar conexiones si hay hijos
+        if ($node->left !== null || $node->right !== null) {
+            $nextRow = $row + 1;
+            while (count($lines) <= $nextRow) {
+                $lines[] = str_repeat(" ", 50);
             }
             
-            if ($root->right !== null) {
-                $result .= $this->getTreeVisualization($root->right, $level + 1);
-            } else {
-                $result .= str_repeat("  ", $level + 1) . "null\n";
+            if ($node->left !== null) {
+                $this->buildAsciiTree($node->left, $lines, $nextRow, $col - 2);
+            }
+            if ($node->right !== null) {
+                $this->buildAsciiTree($node->right, $lines, $nextRow, $col + 2);
             }
         }
-        
-        return $result;
     }
     
     /**
@@ -254,7 +323,8 @@ class BinaryTreeBuilder
             'preorder' => $this->preorderTraversal($root),
             'inorder' => $this->inorderTraversal($root),
             'postorder' => $this->postorderTraversal($root),
-            'visualization' => $this->getTreeVisualization($root)
+            'visualization' => $this->getTreeVisualization($root),
+            'ascii_tree' => $this->getAsciiTree($root)
         ];
     }
 }

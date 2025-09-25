@@ -128,7 +128,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $inputData = "Conjunto A: " . $setOperations->formatNumbers($operations['setA']) . 
                                     "\nConjunto B: " . $setOperations->formatNumbers($operations['setB']);
                         
-                        $result = "Unión (A ∪ B): " . $setOperations->formatNumbers($operations['union']) . "\n";
+                        $result = "Conjuntos ingresados:\n";
+                        $result .= "Conjunto A: " . $setOperations->formatNumbers($operations['setA']) . "\n";
+                        $result .= "Conjunto B: " . $setOperations->formatNumbers($operations['setB']) . "\n\n";
+                        $result .= "Resultados de las operaciones:\n";
+                        $result .= "Unión (A ∪ B): " . $setOperations->formatNumbers($operations['union']) . "\n";
                         $result .= "Intersección (A ∩ B): " . $setOperations->formatNumbers($operations['intersection']) . "\n";
                         $result .= "Diferencia (A - B): " . $setOperations->formatNumbers($operations['differenceAB']) . "\n";
                         $result .= "Diferencia (B - A): " . $setOperations->formatNumbers($operations['differenceBA']);
@@ -150,15 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $conversion = $binaryConverter->processConversion($number);
                     
                     $inputData = $conversion['decimal'];
-                    $result = "Número decimal: " . $conversion['decimal'] . "\n";
-                    $result .= "Número binario: " . $conversion['binary'] . "\n";
-                    $result .= "Longitud en binario: " . $conversion['binary_length'] . " bits\n";
-                    $result .= "Hexadecimal: " . strtoupper($conversion['hexadecimal']) . "\n";
-                    $result .= "Octal: " . $conversion['octal'];
-                    
-                    if ($conversion['is_power_of_2']) {
-                        $result .= "\nEs una potencia de 2";
-                    }
+                    $result = "Número ingresado: " . $conversion['decimal'] . "\n";
+                    $result .= "Número binario: " . $conversion['binary'];
                 } catch (Exception $e) {
                     $error = 'Error en la conversión: ' . $e->getMessage();
                 }
@@ -187,10 +184,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $treeResult = $treeBuilder->processTreeConstruction($preorder, $inorder, $postorder);
                     
                     $inputData = "Método usado: " . $treeResult['method'];
-                    $result = "Recorrido Preorden: " . implode(" → ", $treeResult['preorder']) . "\n";
-                    $result .= "Recorrido Inorden: " . implode(" → ", $treeResult['inorder']) . "\n";
-                    $result .= "Recorrido Postorden: " . implode(" → ", $treeResult['postorder']) . "\n\n";
-                    $result .= "Estructura del árbol:\n" . $treeResult['visualization'];
+                    $result = "Recorridos calculados:\n";
+                    $result .= "Preorden: " . implode(" → ", $treeResult['preorder']) . "\n";
+                    $result .= "Inorden: " . implode(" → ", $treeResult['inorder']) . "\n";
+                    $result .= "Postorden: " . implode(" → ", $treeResult['postorder']) . "\n\n";
+                    $result .= "Estructura visual del árbol:\n";
+                    $result .= $treeResult['visualization'];
                 } catch (Exception $e) {
                     $error = 'Error al construir el árbol: ' . $e->getMessage();
                 }
