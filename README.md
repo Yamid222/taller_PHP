@@ -1,0 +1,1 @@
+Repositorio con ejercicios y ejemplos en PHP para práctica de programación.
