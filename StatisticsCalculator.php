@@ -61,7 +61,14 @@ class StatisticsCalculator
             throw new InvalidArgumentException("El array no puede estar vacío");
         }
         
-        $frequency = array_count_values($numbers);
+        // Convertir números a strings para poder usar array_count_values
+        $stringNumbers = array_map('strval', $numbers);
+        $frequency = array_count_values($stringNumbers);
+        
+        if (empty($frequency)) {
+            return [];
+        }
+        
         $maxFrequency = max($frequency);
         
         if ($maxFrequency === 1) {
@@ -71,7 +78,7 @@ class StatisticsCalculator
         $modes = [];
         foreach ($frequency as $number => $freq) {
             if ($freq === $maxFrequency) {
-                $modes[] = $number;
+                $modes[] = (float)$number; // Convertir de vuelta a float
             }
         }
         

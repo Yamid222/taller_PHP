@@ -51,11 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $inputData = $number;
                         
                         if ($operation === 'fibonacci') {
-                            $fibonacci = $mathCalculator->calculateFibonacci($number);
-                            $result = implode(', ', $fibonacci);
+                            $fibonacciData = $mathCalculator->calculateFibonacciWithProcedure($number);
+                            $result = "Sucesión de Fibonacci: " . implode(', ', $fibonacciData['sequence']) . "\n\n";
+                            $result .= "Procedimiento paso a paso:\n";
+                            $result .= implode("\n", $fibonacciData['procedure']);
                         } else {
-                            $factorial = $mathCalculator->calculateFactorial($number);
-                            $result = $factorial;
+                            $factorialData = $mathCalculator->calculateFactorialWithProcedure($number);
+                            $result = "Resultado: " . $factorialData['result'] . "\n\n";
+                            $result .= "Procedimiento paso a paso:\n";
+                            $result .= implode("\n", $factorialData['procedure']);
                         }
                     }
                 } catch (Exception $e) {
@@ -72,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 try {
                     // Convertir string de números separados por comas a array
                     $numbers = array_map('trim', explode(',', $numbersInput));
-                    $numbers = array_filter($numbers, function($n) { return !empty($n); });
+                    $numbers = array_filter($numbers, function($n) { return $n !== ''; });
                     
                     if (empty($numbers)) {
                         $error = 'Por favor, ingrese números válidos.';
@@ -365,11 +369,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php if (!empty($result)): ?>
                         <div class="result-section">
                             <h3><i class="fas fa-check-circle"></i> Resultado:</h3>
-                            <?php if (($_POST['operation'] ?? '') === 'fibonacci'): ?>
-                                <div class="result-list"><?php echo htmlspecialchars($result); ?></div>
-                            <?php else: ?>
-                                <div class="result-value"><?php echo htmlspecialchars($result); ?></div>
-                            <?php endif; ?>
+                            <div class="result-list"><?php echo nl2br(htmlspecialchars($result)); ?></div>
                         </div>
                     <?php endif; ?>
                     
@@ -394,10 +394,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 id="numbers" 
                                 name="numbers"
                                 rows="4"
-                                placeholder="Ej: 5, 2, 8, 2, 9, 2, 1"
+                                placeholder="Ej: 1,2,5,4,0"
                                 required
                             ><?php echo htmlspecialchars($inputData); ?></textarea>
-                            <small>Separe los números con comas. Ejemplo: 5, 2, 8, 2, 9, 2, 1</small>
+                            <small>Separe los números con comas SIN espacios. Ejemplo: 1,2,5,4,0</small>
                         </div>
                         
                         <button type="submit" class="btn btn-primary">
