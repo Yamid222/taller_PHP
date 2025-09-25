@@ -1,18 +1,14 @@
 <?php
 
-class BinaryConverter
+class BinarioConbertir
 {
-    /**
-     * Valida que el número sea un entero válido
-     */
+
     public function isValidNumber($number): bool
     {
         return is_numeric($number) && is_int($number + 0) && $number >= 0;
     }
     
-    /**
-     * Convierte un número entero a binario
-     */
+  
     public function convertToBinary(int $number): string
     {
         if ($number === 0) {
@@ -28,17 +24,13 @@ class BinaryConverter
         return $binary;
     }
     
-    /**
-     * Convierte un número entero a binario usando la función nativa de PHP
-     */
+   
     public function convertToBinaryNative(int $number): string
     {
         return decbin($number);
     }
     
-    /**
-     * Obtiene información adicional sobre la conversión
-     */
+    
     public function getConversionInfo(int $number): array
     {
         $binary = $this->convertToBinary($number);
@@ -55,9 +47,7 @@ class BinaryConverter
         ];
     }
     
-    /**
-     * Valida y procesa la conversión
-     */
+    
     public function processConversion($input): array
     {
         if (!$this->isValidNumber($input)) {

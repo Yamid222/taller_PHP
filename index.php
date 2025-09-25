@@ -1,22 +1,19 @@
 <?php
 
-require_once 'AcronymGenerator.php';
-require_once 'TextProcessor.php';
-require_once 'MathCalculator.php';
-require_once 'StatisticsCalculator.php';
-require_once 'SetOperations.php';
-require_once 'BinaryConverter.php';
-require_once 'BinaryTreeBuilder.php';
+require_once 'AcronimoGenerador.php';
+require_once 'EliminarTxt.php';
+require_once 'CalculosMatematicos.php';
+require_once 'CalculosStadisticos.php';
+require_once 'ConjuntosOperaciones.php';
+require_once 'BinarioConbertir.php';
+require_once 'Binarios.php';
 
-// Obtener la opción seleccionada
 $option = $_GET['option'] ?? 'menu';
 
-// Variables para resultados
 $result = '';
 $error = '';
 $inputData = '';
 
-// Procesar formularios según la opción
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     switch ($option) {
         case 'acronym':
@@ -25,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Por favor, ingrese una frase válida.';
             } else {
                 try {
-                    $textProcessor = new TextProcessor();
-                    $acronymGenerator = new AcronymGenerator($textProcessor);
+                    $textProcessor = new EliminarTxt();
+                    $acronymGenerator = new AcronimoGenerador($textProcessor);
                     $result = $acronymGenerator->generateAcronym($inputData);
                 } catch (Exception $e) {
                     $error = 'Error al procesar la frase: ' . $e->getMessage();
@@ -42,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Por favor, complete todos los campos.';
             } else {
                 try {
-                    $mathCalculator = new MathCalculator();
+                    $mathCalculator = new CalculosMatematicos();
                     
                     if (!$mathCalculator->isValidNumber($number)) {
                         $error = 'Por favor, ingrese un número entero positivo válido.';
@@ -74,14 +71,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Por favor, ingrese al menos un número.';
             } else {
                 try {
-                    // Convertir string de números separados por comas a array
                     $numbers = array_map('trim', explode(',', $numbersInput));
                     $numbers = array_filter($numbers, function($n) { return $n !== ''; });
                     
                     if (empty($numbers)) {
                         $error = 'Por favor, ingrese números válidos.';
                     } else {
-                        $statsCalculator = new StatisticsCalculator();
+                        $statsCalculator = new CalculosStadisticos();
                         $validNumbers = $statsCalculator->validateNumbers($numbers);
                         $inputData = $statsCalculator->formatNumbers($validNumbers);
                         
@@ -112,7 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Por favor, ingrese números en ambos conjuntos.';
             } else {
                 try {
-                    // Convertir strings a arrays
                     $setA = array_map('trim', explode(',', $setAInput));
                     $setB = array_map('trim', explode(',', $setBInput));
                     
@@ -122,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if (empty($setA) || empty($setB)) {
                         $error = 'Por favor, ingrese números válidos en ambos conjuntos.';
                     } else {
-                        $setOperations = new SetOperations();
+                        $setOperations = new ConjuntosOperaciones();
                         $operations = $setOperations->processSetOperations($setA, $setB);
                         
                         $inputData = "Conjunto A: " . $setOperations->formatNumbers($operations['setA']) . 
@@ -150,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Por favor, ingrese un número.';
             } else {
                 try {
-                    $binaryConverter = new BinaryConverter();
+                    $binaryConverter = new BinarioConbertir();
                     $conversion = $binaryConverter->processConversion($number);
                     
                     $inputData = $conversion['decimal'];
@@ -167,7 +162,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $inorderInput = $_POST['inorder'] ?? '';
             $postorderInput = $_POST['postorder'] ?? '';
             
-            // Convertir strings a arrays
             $preorder = !empty($preorderInput) ? array_map('trim', explode(',', $preorderInput)) : [];
             $inorder = !empty($inorderInput) ? array_map('trim', explode(',', $inorderInput)) : [];
             $postorder = !empty($postorderInput) ? array_map('trim', explode(',', $postorderInput)) : [];
@@ -180,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Se necesitan al menos dos recorridos para construir el árbol.';
             } else {
                 try {
-                    $treeBuilder = new BinaryTreeBuilder();
+                    $treeBuilder = new Binarios();
                     $treeResult = $treeBuilder->processTreeConstruction($preorder, $inorder, $postorder);
                     
                     $inputData = "Método usado: " . $treeResult['method'];
@@ -211,7 +205,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <?php if ($option === 'menu'): ?>
-            <!-- Menú Principal -->
             <div class="menu" id="mainMenu">
                 <header>
                     <h1><i class="fas fa-calculator"></i> Taller PHP - Aplicaciones Matemáticas</h1>
@@ -270,7 +263,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             
         <?php else: ?>
-            <!-- Navegación -->
             <div class="nav">
                 <a href="?option=menu" class="btn-back">
                     <i class="fas fa-arrow-left"></i> Volver al Menú
@@ -278,7 +270,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             
             <?php if ($option === 'acronym'): ?>
-                <!-- Generador de Acrónimos -->
                 <div class="form-section">
                     <h2><i class="fas fa-font"></i> Generador de Acrónimos</h2>
                     <p>Convierte una frase en su acrónimo. Los guiones son separadores de palabras.</p>
@@ -330,7 +321,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
             <?php elseif ($option === 'math'): ?>
-                <!-- Fibonacci y Factorial -->
                 <div class="form-section">
                     <h2><i class="fas fa-superscript"></i> Fibonacci y Factorial</h2>
                     <p>Calcula la sucesión de Fibonacci o el factorial de un número.</p>
@@ -381,7 +371,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
             <?php elseif ($option === 'statistics'): ?>
-                <!-- Estadísticas -->
                 <div class="form-section">
                     <h2><i class="fas fa-chart-bar"></i> Estadísticas</h2>
                     <p>Calcula promedio, mediana y moda de una serie de números.</p>
@@ -420,7 +409,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
             <?php elseif ($option === 'sets'): ?>
-                <!-- Operaciones de Conjuntos -->
                 <div class="form-section">
                     <h2><i class="fas fa-project-diagram"></i> Operaciones de Conjuntos</h2>
                     <p>Calcula unión, intersección y diferencia de dos conjuntos de números enteros.</p>
@@ -477,7 +465,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
             <?php elseif ($option === 'binary'): ?>
-                <!-- Conversión a Binario -->
                 <div class="form-section">
                     <h2><i class="fas fa-binary"></i> Conversión a Binario</h2>
                     <p>Convierte un número entero a su representación binaria.</p>
@@ -517,7 +504,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
             <?php elseif ($option === 'tree'): ?>
-                <!-- Construcción de Árbol Binario -->
                 <div class="form-section">
                     <h2><i class="fas fa-sitemap"></i> Construcción de Árbol Binario</h2>
                     <p>Construye un árbol binario a partir de sus recorridos. Ingrese al menos dos recorridos.</p>

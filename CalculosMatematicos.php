@@ -1,16 +1,9 @@
 <?php
 
-/**
- * Clase para cálculos matemáticos: Fibonacci y Factorial
- */
-class MathCalculator
+
+class CalculosMatematicos
 {
-    /**
-     * Calcula la sucesión de Fibonacci hasta el número dado
-     * 
-     * @param int $n Número hasta el cual calcular Fibonacci
-     * @return array Array con la sucesión de Fibonacci
-     */
+   
     public function calculateFibonacci(int $n): array
     {
         if ($n < 0) {
@@ -34,12 +27,7 @@ class MathCalculator
         return $fibonacci;
     }
     
-    /**
-     * Calcula la sucesión de Fibonacci con procedimiento paso a paso
-     * 
-     * @param int $n Número hasta el cual calcular Fibonacci
-     * @return array Array con la sucesión y el procedimiento
-     */
+    
     public function calculateFibonacciWithProcedure(int $n): array
     {
         if ($n < 0) {
@@ -74,12 +62,7 @@ class MathCalculator
         ];
     }
     
-    /**
-     * Calcula el factorial de un número
-     * 
-     * @param int $n Número para calcular factorial
-     * @return int El factorial del número
-     */
+   
     public function calculateFactorial(int $n): int
     {
         if ($n < 0) {
@@ -98,12 +81,7 @@ class MathCalculator
         return $factorial;
     }
     
-    /**
-     * Calcula el factorial de un número con procedimiento paso a paso
-     * 
-     * @param int $n Número para calcular factorial
-     * @return array Array con el resultado y el procedimiento
-     */
+   
     public function calculateFactorialWithProcedure(int $n): array
     {
         if ($n < 0) {
@@ -129,12 +107,7 @@ class MathCalculator
         ];
     }
     
-    /**
-     * Valida si un número es válido para los cálculos
-     * 
-     * @param mixed $number Número a validar
-     * @return bool True si es válido, false si no
-     */
+    
     public function isValidNumber($number): bool
     {
         return is_numeric($number) && $number >= 0 && $number == (int)$number;

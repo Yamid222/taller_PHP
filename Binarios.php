@@ -14,44 +14,37 @@ class BinaryTreeNode
     }
 }
 
-class BinaryTreeBuilder
+class Binarios
 {
     private $preorder;
     private $inorder;
     private $postorder;
     private $inorderMap;
     
-    /**
-     * Valida que los recorridos tengan la misma longitud y elementos
-     */
+   
     public function validateTraversals(array $preorder, array $inorder, array $postorder): bool
     {
-        // Filtrar arrays vacíos
         $nonEmptyArrays = array_filter([$preorder, $inorder, $postorder], function($arr) { return !empty($arr); });
         
         if (count($nonEmptyArrays) < 2) {
             return false;
         }
         
-        // Verificar que todos tengan la misma longitud
         $lengths = array_map('count', $nonEmptyArrays);
         if (count(array_unique($lengths)) > 1) {
             return false;
         }
         
-        // Verificar que todos tengan los mismos elementos
         $allElements = [];
         foreach ($nonEmptyArrays as $arr) {
             $allElements = array_merge($allElements, $arr);
         }
         $uniqueElements = array_unique($allElements);
         
-        return count($uniqueElements) === count($nonEmptyArrays[0]);
+        return count($uniqueElements) === count($nonEmptyArrays[1]);
     }
     
-    /**
-     * Construye el árbol binario desde preorden e inorden
-     */
+    
     public function buildFromPreorderInorder(array $preorder, array $inorder): ?BinaryTreeNode
     {
         if (empty($preorder) || empty($inorder)) {
@@ -92,9 +85,7 @@ class BinaryTreeBuilder
         return $root;
     }
     
-    /**
-     * Construye el árbol binario desde postorden e inorden
-     */
+  
     public function buildFromPostorderInorder(array $postorder, array $inorder): ?BinaryTreeNode
     {
         if (empty($postorder) || empty($inorder)) {
@@ -135,9 +126,7 @@ class BinaryTreeBuilder
         return $root;
     }
     
-    /**
-     * Realiza recorrido preorden
-     */
+ 
     public function preorderTraversal(?BinaryTreeNode $root): array
     {
         $result = [];
@@ -154,9 +143,7 @@ class BinaryTreeBuilder
         }
     }
     
-    /**
-     * Realiza recorrido inorden
-     */
+
     public function inorderTraversal(?BinaryTreeNode $root): array
     {
         $result = [];
@@ -173,9 +160,7 @@ class BinaryTreeBuilder
         }
     }
     
-    /**
-     * Realiza recorrido postorden
-     */
+
     public function postorderTraversal(?BinaryTreeNode $root): array
     {
         $result = [];
@@ -191,10 +176,7 @@ class BinaryTreeBuilder
             $result[] = $node->value;
         }
     }
-    
-    /**
-     * Obtiene la representación visual del árbol
-     */
+ 
     public function getTreeVisualization(?BinaryTreeNode $root): string
     {
         if ($root === null) {
@@ -232,9 +214,7 @@ class BinaryTreeBuilder
         }
     }
     
-    /**
-     * Obtiene una representación ASCII del árbol
-     */
+
     public function getAsciiTree(?BinaryTreeNode $root): string
     {
         if ($root === null) {
@@ -253,18 +233,15 @@ class BinaryTreeBuilder
             return;
         }
         
-        // Asegurar que tenemos suficientes líneas
         while (count($lines) <= $row) {
-            $lines[] = str_repeat(" ", 50); // Línea vacía con espacios
+            $lines[] = str_repeat(" ", 50); 
         }
         
-        // Colocar el nodo en la posición correcta
         $value = str_pad($node->value, 3, " ", STR_PAD_BOTH);
         $currentLine = $lines[$row];
         $newLine = substr($currentLine, 0, $col) . $value . substr($currentLine, $col + 3);
         $lines[$row] = $newLine;
         
-        // Agregar conexiones si hay hijos
         if ($node->left !== null || $node->right !== null) {
             $nextRow = $row + 1;
             while (count($lines) <= $nextRow) {
@@ -280,12 +257,9 @@ class BinaryTreeBuilder
         }
     }
     
-    /**
-     * Procesa la construcción del árbol
-     */
+   
     public function processTreeConstruction(array $preorder, array $inorder, array $postorder): array
     {
-        // Limpiar arrays
         $preorder = array_filter($preorder, function($item) { return !empty(trim($item)); });
         $inorder = array_filter($inorder, function($item) { return !empty(trim($item)); });
         $postorder = array_filter($postorder, function($item) { return !empty(trim($item)); });
@@ -297,7 +271,6 @@ class BinaryTreeBuilder
         $root = null;
         $method = "";
         
-        // Intentar construir con preorden e inorden
         if (!empty($preorder) && !empty($inorder)) {
             if ($this->validateTraversals($preorder, $inorder, [])) {
                 $root = $this->buildFromPreorderInorder($preorder, $inorder);
@@ -305,7 +278,6 @@ class BinaryTreeBuilder
             }
         }
         
-        // Si no se pudo construir, intentar con postorden e inorden
         if ($root === null && !empty($postorder) && !empty($inorder)) {
             if ($this->validateTraversals([], $inorder, $postorder)) {
                 $root = $this->buildFromPostorderInorder($postorder, $inorder);
