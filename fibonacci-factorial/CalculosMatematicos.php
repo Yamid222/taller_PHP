@@ -63,7 +63,7 @@ class CalculosMatematicos
     }
     
    
-    public function calculateFactorial(int $n): int
+    public function calculateFactorial(int $n): string
     {
         if ($n < 0) {
             throw new InvalidArgumentException("El número debe ser positivo");

@@ -1,0 +1,330 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+h1, h2 {
+    color: #444;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    background: #2575fc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background: #6a11cb;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* Estilos del árbol */
+.arbol {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.nodo {
+    text-align: center;
+    position: relative;
+    display: inline-block;
+}
+
+.dato {
+    display: inline-block;
+    padding: 10px;
+    background: #e3f2fd;
+    border: 2px solid #90caf9;
+    border-radius: 50%;
+    min-width: 30px;
+    font-weight: bold;
+}
+
+.hijos {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.rama {
+    margin: 0 10px;
+    position: relative;
+}
+
+.rama:before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    width: 2px;
+    height: 15px;
+    background: #555;
+}
+.tree-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 20px 0;
+    padding: 40px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    min-height: 300px;
+}
+.node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    position: relative;
+}
+
+
+.node-data {
+    background: #ff6b35;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.node-data:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+
+.children {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+    width: 100%;
+}
+
+
+.child {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    min-width: 80px; 
+}
+
+
+.child.left {
+    margin-right: 30px;
+}
+
+.child.right {
+    margin-left: 30px;
+}
+
+
+.child::before {
+    content: '';
+    position: absolute;
+    top: -20px; 
+    left: 50%;
+    border-left: 2px solid #333;
+    height: 20px; 
+}
+.child:first-child::before {
+    border-left: none;
+    border-top: 2px solid #333;
+    width: 50%;
+    left: 50%;
+}
+.child:last-child::before {
+    border-left: none;
+    border-top: 2px solid #333;
+    width: 50%;
+    left: 0;
+}
+
+.child.left::before {
+    transform: translateX(-50%) rotate(-25deg);
+    transform-origin: bottom;
+    width: 2px;
+    height: 35px;
+}
+
+.child.right::before {
+    transform: translateX(-50%) rotate(25deg);
+    transform-origin: bottom;
+    width: 2px;
+    height: 35px;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.node {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .node-data {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+    
+    .children {
+        margin-top: 25px;
+        width: 200px;
+        min-width: 200px;
+    }
+    
+    .child::before {
+        height: 25px;
+        top: -25px;
+    }
+    
+    .child.left::before {
+        height: 30px;
+    }
+    
+    .child.right::before {
+        height: 30px;
+    }
+}
+
+/* Estilos para los resultados de recorridos */
+.traversal-results {
+    background: linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 100%);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border-left: 5px solid #2196F3;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.traversal-results h3 {
+    margin-top: 0;
+    color: #1976D2;
+    font-size: 1.2em;
+}
+
+.traversal-item {
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 3px solid #2196F3;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Estilos para la sección de ejemplo */
+.example-section {
+    background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+    padding: 25px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border: 1px solid #b3d9ff;
+}
+
+.example-section h3 {
+    color: #1565C0;
+    margin-top: 0;
+    font-size: 1.3em;
+}
+
+.example-traversal {
+    background: white;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 8px;
+    border-left: 4px solid #2196F3;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.example-traversal:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Mejoras para el formulario */
+.traversals-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.traversal-group {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.traversal-group h3 {
+    color: #495057;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+/* Efectos de hover para botones */
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
