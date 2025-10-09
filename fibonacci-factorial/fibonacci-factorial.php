@@ -21,29 +21,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="fibonacci-factorial.css">
-    <title>Calculadora de Fibonacci y Factorial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>🌀 Calculadora de Fibonacci y Factorial</title>
 </head>
 <body>
-    <h1>Calculadora de Fibonacci y Factorial</h1>
-    <form method="post">
-        <label>Ingrese un número:</label><br>
-        <input type="number" name="numero" required min="1"><br><br>
-
-        <label>Seleccione la operación:</label><br>
-        <select name="operacion" required>
-            <option value="fibonacci">Fibonacci</option>
-            <option value="factorial">Factorial</option>
-        </select><br><br>
-
-        <button type="submit">Calcular</button>
-    </form>
-    <?php
-    if ($resultado):
-    ?>
-        <h2>Resultado:</h2>
-        <p><?php echo $resultado; ?></p>
-    <?php endif; ?>
-    <a href="../index.html">Inicio</a>
+    <div class="container">
+        <div class="nav">
+            <a href="../index.html" class="btn-back">
+                ← Volver al inicio
+            </a>
+        </div>
+        
+        <div class="section">
+            <div class="form-section">
+                <h2>🌀 Calculadora de Fibonacci y Factorial</h2>
+                <p>Calcula secuencias de Fibonacci o factoriales de números</p>
+                
+                <form method="post">
+                    <div class="form-group">
+                        <label for="numero">Ingrese un número:</label>
+                        <input type="number" id="numero" name="numero" required min="1" 
+                               placeholder="Ejemplo: 10"
+                               value="<?php echo isset($_POST['numero']) ? htmlspecialchars($_POST['numero']) : ''; ?>">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="operacion">Seleccione la operación:</label>
+                        <select id="operacion" name="operacion" required>
+                            <option value="fibonacci" <?php echo (isset($_POST['operacion']) && $_POST['operacion'] == 'fibonacci') ? 'selected' : ''; ?>>🌀 Secuencia de Fibonacci</option>
+                            <option value="factorial" <?php echo (isset($_POST['operacion']) && $_POST['operacion'] == 'factorial') ? 'selected' : ''; ?>>❗ Factorial</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn">
+                        🧮 Calcular
+                    </button>
+                </form>
+                
+                <?php if ($resultado): ?>
+                <div class="result-section">
+                    <h3>✅ Resultado</h3>
+                    <div class="result-value">
+                        <?php echo $resultado; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

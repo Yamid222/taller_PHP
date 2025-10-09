@@ -2,20 +2,57 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="index.css">
-    <title>Menú Principal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>💻 Taller de PHP</title>
 </head>
 <body>
-    <section>
-        <h1>💻 Taller de PHP</h1>
-        <nav>
-            <a href="acronimos/acronimos.php">🔠 Acrónimos</a>
-            <a href="fibonacci-factorial/fibonacci-factorial.php">🌀 Fibonacci o Factorial</a>
-            <a href="estadisticas/calculos.php">📊 Estadísticos</a>
-            <a href="conjuntos/conjuntos.php">🔢 Conjuntos</a>
-            <a href="binario/binarios.php">💾 Binarios</a>
-            <a href="arbol-binario/Binarios.php">🌳 Árboles Binarios</a>
-        </nav>
-    </section>
+    <div class="container">
+        <div class="menu">
+            <header>
+                <h1>💻 Taller de PHP</h1>
+                <p>Herramientas y ejercicios de programación en PHP</p>
+            </header>
+            
+            <div class="menu-options">
+                <a href="acronimos/acronimos.php" class="menu-option">
+                    <div class="option-icon">🔠</div>
+                    <h3>Acrónimos</h3>
+                    <p>Genera acrónimos a partir de palabras o frases</p>
+                </a>
+                
+                <a href="fibonacci-factorial/fibonacci-factorial.php" class="menu-option">
+                    <div class="option-icon">🌀</div>
+                    <h3>Fibonacci & Factorial</h3>
+                    <p>Calcula secuencias de Fibonacci y factoriales</p>
+                </a>
+                
+                <a href="estadisticas/calculos.php" class="menu-option">
+                    <div class="option-icon">📊</div>
+                    <h3>Estadísticas</h3>
+                    <p>Realiza cálculos estadísticos básicos</p>
+                </a>
+                
+                <a href="conjuntos/conjuntos.php" class="menu-option">
+                    <div class="option-icon">🔢</div>
+                    <h3>Conjuntos</h3>
+                    <p>Operaciones con conjuntos matemáticos</p>
+                </a>
+                
+                <a href="binario/binarios.php" class="menu-option">
+                    <div class="option-icon">💾</div>
+                    <h3>Conversión Binaria</h3>
+                    <p>Convierte números entre sistemas binario y decimal</p>
+                </a>
+                
+                <a href="arbol-binario/index.php" class="menu-option">
+                    <div class="option-icon">🌳</div>
+                    <h3>Árboles Binarios</h3>
+                    <p>Visualiza y recorre árboles binarios</p>
+                </a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

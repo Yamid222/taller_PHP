@@ -63,19 +63,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Construcción de Árbol Binario</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="tree-styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="nav">
-            <a href="../index.php" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Volver al Menú Principal
+            <a href="../index.html" class="btn-back">
+                ← Volver al inicio
             </a>
         </div>
         
         <div class="form-section">
-            <h2><i class="fas fa-sitemap"></i> Construcción de Árbol Binario</h2>
+            <h2>🌳 Construcción de Árbol Binario</h2>
             <p>Construye un árbol binario a partir de sus recorridos. Ingrese al menos dos recorridos.</p>
             
             <form method="POST">
@@ -120,8 +119,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-tree"></i> Construir Árbol
+                <button type="submit" class="btn">
+                    🌳 Construir Árbol
                 </button>
             </form>
             
@@ -132,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div class="traversal-results">
-                    <h3><i class="fas fa-list"></i> Recorridos del Árbol:</h3>
+                    <h3>📋 Recorridos del Árbol:</h3>
                     <div class="traversal-item">
                         <strong>Preorden:</strong> <?php echo implode(" → ", $recorridos['preorden']); ?>
                     </div>
@@ -147,14 +146,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <?php if (!empty($result)): ?>
                 <div class="result-section">
-                    <h3><i class="fas fa-info-circle"></i> Información:</h3>
+                    <h3>ℹ️ Información:</h3>
                     <div class="result-list"><?php echo nl2br(htmlspecialchars($result)); ?></div>
                 </div>
             <?php endif; ?>
             
             <?php if (!empty($error)): ?>
                 <div class="error">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Error</h3>
+                    <h3>⚠️ Error</h3>
                     <p><?php echo htmlspecialchars($error); ?></p>
                 </div>
             <?php endif; ?>
