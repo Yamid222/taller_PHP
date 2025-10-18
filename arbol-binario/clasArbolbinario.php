@@ -76,16 +76,36 @@ class ArbolBinario {
     public static function desdePrePost($preorden, $postorden) {
         $pre = self::normalizar($preorden);
         $post = self::normalizar($postorden);
+        
+        // Validación específica para pre+post
+        if (!self::esValidoPrePost($pre, $post)) {
+            return null;
+        }
+        
         return self::construirPrePost($pre, $post);
+    }
+    
+    private static function esValidoPrePost($pre, $post) {
+   
     }
 
     private static function construirPrePost($pre, $post) {
         if (empty($pre) || empty($post)) return null;
+        
+        if ($pre[0] !== $post[count($post) - 1]) {
+            return null; // Las raíces no coinciden
+        }
+        
         $raizValor = $pre[0];
         $raiz = new Nodo($raizValor);
 
         if (count($pre) == 1) {
             return $raiz; 
+        }
+
+      
+        if (count($pre) < 3) {
+            return null; 
         }
 
         $izqRaizValor = $pre[1];
@@ -102,8 +122,18 @@ class ArbolBinario {
         $postIzq = array_slice($post, 0, $tamIzq);
         $postDer = array_slice($post, $tamIzq, count($post) - $tamIzq - 1);
 
+        if (empty($preDer) && !empty($preIzq)) {
+            if (count($preIzq) > 1) {
+                return null;
+            }
+        }
+
         $raiz->izq = self::construirPrePost($preIzq, $postIzq);
         $raiz->der = self::construirPrePost($preDer, $postDer);
+
+        if (($raiz->izq === null && !empty($preIzq)) || ($raiz->der === null && !empty($preDer))) {
+            return null;
+        }
 
         return $raiz;
     }
