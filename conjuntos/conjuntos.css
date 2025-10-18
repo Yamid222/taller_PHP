@@ -1,7 +1,5 @@
-/* Importar el diseño unificado */
 @import url('../style.css');
 
-/* Estilos específicos para el módulo de conjuntos */
 body {
     display: block;
     height: auto;
@@ -183,7 +181,6 @@ body {
     }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     body {
         padding: var(--spacing-sm);
