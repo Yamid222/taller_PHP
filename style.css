@@ -1,6 +1,4 @@
-/* Variables CSS para diseño unificado */
 :root {
-    /* Colores principales */
     --primary-color: #4CAF50;
     --primary-dark: #388E3C;
     --secondary-color: #2196F3;
@@ -9,20 +7,16 @@
     --success-color: #4CAF50;
     --danger-color: #f44336;
     
-    /* Colores de fondo */
     --bg-primary: #ffffff;
     --bg-secondary: #f8f9fa;
     --bg-dark: #2c3e50;
     
-    /* Colores de texto */
     --text-primary: #2c3e50;
     --text-secondary: #6c757d;
     --text-light: #adb5bd;
     
-    /* Colores de borde */
     --border-color: #e9ecef;
     
-    /* Tipografía */
     --font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --font-size-xs: 0.75rem;
     --font-size-small: 0.875rem;
@@ -31,7 +25,6 @@
     --font-size-xl: 1.25rem;
     --font-size-xxl: 1.5rem;
     
-    /* Espaciado */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -39,7 +32,6 @@
     --spacing-xl: 2rem;
     --spacing-xxl: 3rem;
     
-    /* Bordes y sombras */
     --border-radius: 8px;
     --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     --box-shadow-hover: 0 4px 20px rgba(0,0,0,0.15);
@@ -70,7 +62,6 @@ body {
     overflow: hidden;
 }
 
-/* Header y menú principal */
 .menu {
     padding: var(--spacing-xxl);
     text-align: center;
@@ -149,7 +140,6 @@ body {
     line-height: 1.5;
 }
 
-/* Navegación */
 .nav {
     padding: var(--spacing-lg);
     background: var(--bg-secondary);
@@ -175,7 +165,7 @@ body {
     transform: translateX(-2px);
 }
 
-/* Secciones */
+
 .section {
     padding: var(--spacing-xl);
 }
@@ -201,7 +191,6 @@ body {
     font-size: var(--font-size-large);
 }
 
-/* Formularios */
 .form-group {
     margin-bottom: var(--spacing-lg);
 }
@@ -239,7 +228,6 @@ body {
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
-/* Grupos de entrada */
 .input-group {
     display: flex;
     gap: var(--spacing-sm);
@@ -250,7 +238,6 @@ body {
     flex: 1;
 }
 
-/* Textarea */
 textarea {
     width: 100%;
     padding: var(--spacing-md);
@@ -270,7 +257,6 @@ textarea:focus {
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
-/* Small text */
 small {
     display: block;
     margin-top: var(--spacing-xs);
@@ -278,7 +264,6 @@ small {
     font-size: var(--font-size-small);
 }
 
-/* Botones */
 .btn {
     background: var(--primary-color);
     color: white;
@@ -326,7 +311,6 @@ small {
     background: #d32f2f;
 }
 
-/* Resultados */
 .result-section {
     margin-top: var(--spacing-xl);
     padding: var(--spacing-xl);
@@ -369,7 +353,6 @@ small {
     box-shadow: var(--box-shadow);
 }
 
-/* Contenedores de formularios mejorados */
 .sets-container,
 .traversals-container {
     display: grid;
@@ -395,7 +378,6 @@ small {
 }
 
 
-/* Ejemplos */
 .examples {
     margin-top: var(--spacing-xl);
     padding: var(--spacing-xl);
@@ -429,7 +411,6 @@ small {
 }
 
 
-/* Animaciones */
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -441,7 +422,6 @@ small {
     }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     body {
         padding: var(--spacing-sm);
@@ -507,7 +487,6 @@ small {
     }
 }
 
-/* Estados de error */
 .error {
     margin-top: var(--spacing-lg);
     padding: var(--spacing-lg);
@@ -526,7 +505,6 @@ small {
     gap: var(--spacing-sm);
 }
 
-/* Mejoras de accesibilidad */
 .btn:focus,
 input:focus,
 select:focus {
@@ -539,7 +517,6 @@ select:focus {
     outline-offset: 2px;
 }
 
-/* Scrollbar personalizada */
 ::-webkit-scrollbar {
     width: 8px;
 }
