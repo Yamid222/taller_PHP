@@ -76,6 +76,7 @@
         $post = isset($_POST["postorden"]) ? $_POST["postorden"] : '';
 
         echo "<div class='result-section'>";
+        
         if ($pre && $in) {
             $val = ArbolBinario::validarEntradas($pre, $in);
             if (!$val['ok']) {
@@ -104,26 +105,46 @@
                     ArbolBinario::mostrarRecorridos($arbol);
                 }
             }
-        } elseif ($pre && $post) {
-            $val = ArbolBinario::validarEntradas($pre, $post);
-            if (!$val['ok']) {
-                echo "<div class='error'><h3>⚠️ Error de validación</h3><p>" . htmlspecialchars($val['mensaje']) . "</p></div>";
-            } else {
-                $arbol = ArbolBinario::desdePrePost($pre, $post);
-                if ($arbol === null) {
-                    echo "<div class='error'><h3>⚠️ No se pudo construir el árbol</h3><p>Pre + Post puede no ser único a menos que el árbol sea completo (cada nodo 0 o 2 hijos). Asegúrate que corresponda a un árbol completo.</p></div>";
-                } else {
-                    echo "<h3>✅ Árbol reconstruido (Pre + Post)</h3>";
-                    ArbolBinario::mostrarArbol($arbol);
-                    ArbolBinario::mostrarRecorridos($arbol);
-                }
-            }
         } else {
-            echo "<div class='error'><h3>⚠️ Faltan datos</h3><p>Debes ingresar al menos dos recorridos, y uno debe ser INORDEN.</p></div>";
+            echo "<div class='error'><h3>⚠️ Faltan datos</h3>";
+            echo "<div style='background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; padding: 15px; margin: 10px 0;'>";
+            echo "<p style='color: #721c24; margin-bottom: 10px;'>Para construir un árbol binario necesitas:</p>";
+            echo "<ul style='color: #721c24; margin: 0; padding-left: 20px;'>";
+            echo "<li><strong>Al menos 2 recorridos</strong> de los 3 disponibles</li>";
+            echo "<li><strong>Uno de ellos debe ser INORDEN</strong> (esencial para determinar la estructura)</li>";
+            echo "</ul>";
+            echo "<p style='color: #721c24; margin-top: 10px; margin-bottom: 0;'><strong>💡 Recomendación:</strong> Usa <strong>Preorden + Inorden</strong> o <strong>Postorden + Inorden</strong> para mejores resultados.</p>";
+            echo "</div></div>";
         }
         echo "</div>";
     }
     ?>
+    
+    <!-- Mensaje educativo permanente -->
+    <div style="background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 8px; padding: 20px; margin: 30px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h3 style="color: #2e7d32; margin-top: 0; display: flex; align-items: center;">
+            <span style="margin-right: 10px;">📚</span>
+            Información importante sobre recorridos
+        </h3>
+        <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin: 15px 0;">
+            <h4 style="color: #856404; margin-top: 0;">⚠️ Limitaciones de Preorden + Postorden</h4>
+            <p style="color: #856404; margin-bottom: 10px;">La combinación <strong>Preorden + Postorden</strong> tiene limitaciones importantes:</p>
+            <ul style="color: #856404; margin: 0; padding-left: 20px;">
+                <li><strong>No es única:</strong> Múltiples árboles pueden generar los mismos recorridos pre y post</li>
+                <li><strong>Solo funciona con árboles completos:</strong> Cada nodo debe tener 0 o exactamente 2 hijos</li>
+                <li><strong>Falta información estructural:</strong> Sin inorden, no se puede determinar la estructura interna</li>
+            </ul>
+            <p style="color: #856404; margin-top: 10px; margin-bottom: 0;"><strong>💡 Recomendación:</strong> Usa <strong>Preorden + Inorden</strong> o <strong>Postorden + Inorden</strong> para una reconstrucción única y confiable.</p>
+        </div>
+        <div style="background: #d1ecf1; border: 1px solid #bee5eb; border-radius: 8px; padding: 15px;">
+            <h4 style="color: #0c5460; margin-top: 0;">✅ Combinaciones recomendadas</h4>
+            <ul style="color: #0c5460; margin: 0; padding-left: 20px;">
+                <li><strong>Preorden + Inorden:</strong> Reconstrucción única y confiable</li>
+                <li><strong>Postorden + Inorden:</strong> Reconstrucción única y confiable</li>
+                <li><strong>Inorden es esencial:</strong> Proporciona la información estructural necesaria</li>
+            </ul>
+        </div>
+    </div>
 </div>
 </body>
 </html>
