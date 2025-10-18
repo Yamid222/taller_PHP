@@ -5,7 +5,7 @@ $resultado = "";
 $numerosIngresados = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $numerosIngresados = htmlspecialchars($_POST['numeros']); // Guardamos lo ingresado
+    $numerosIngresados = htmlspecialchars($_POST['numeros']); 
     $estadistica = new Estadistica($numerosIngresados);
     $resultado .= "<h2>Resultados:</h2>";
     $resultado .= "Números ingresados: " . $numerosIngresados . "<br>";
